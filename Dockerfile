@@ -39,6 +39,7 @@ RUN chmod +x ${CATALINA_HOME}/bin/*sh
 ADD create_admin_user.sh $CATALINA_HOME/scripts/create_admin_user.sh
 ADD tomcat.sh $CATALINA_HOME/scripts/tomcat.sh
 RUN chmod +x $CATALINA_HOME/scripts/*.sh
+RUN chmod +w $CATALINA_HOME/conf/*
 
 # Create tomcat user
 RUN groupadd -r tomcat && \
