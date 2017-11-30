@@ -41,11 +41,9 @@ ADD tomcat.sh $CATALINA_HOME/scripts/tomcat.sh
 RUN chmod +x $CATALINA_HOME/scripts/*.sh
 
 # Create tomcat user
-RUN if [! id tomcat ]; then \
-          groupadd -r tomcat && \
-          useradd -g tomcat -d ${CATALINA_HOME} -s /sbin/nologin  -c "Tomcat user" tomcat && \
-          chown -R tomcat:tomcat ${CATALINA_HOME} \
-fi
+RUN groupadd -r tomcat && \
+    useradd -g tomcat -d ${CATALINA_HOME} -s /sbin/nologin  -c "Tomcat user" tomcat
+RUN chown -R tomcat:tomcat ${CATALINA_HOME}
 
 WORKDIR /opt/tomcat
 
