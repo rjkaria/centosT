@@ -17,6 +17,8 @@ ENV JAVA_VERSION 8u152
 ENV JAVA_BUILD 8u152-b16
 ENV JAVA_DL_HASH aa0333dd3019491ca4f6ddbe78cdb6d0
 
+USER root
+
 RUN wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" \
  http://download.oracle.com/otn-pub/java/jdk/${JAVA_BUILD}/${JAVA_DL_HASH}/jdk-${JAVA_VERSION}-linux-x64.tar.gz && \
  tar -xvf jdk-${JAVA_VERSION}-linux-x64.tar.gz && \
@@ -39,17 +41,18 @@ RUN chmod +x ${CATALINA_HOME}/bin/*sh
 ADD create_admin_user.sh $CATALINA_HOME/scripts/create_admin_user.sh
 ADD tomcat.sh $CATALINA_HOME/scripts/tomcat.sh
 RUN chmod +x $CATALINA_HOME/scripts/*.sh
-RUN chmod +w $CATALINA_HOME/conf/*
 
 # Create tomcat user
 RUN groupadd -r tomcat && \
     useradd -g tomcat -d ${CATALINA_HOME} -s /sbin/nologin  -c "Tomcat user" tomcat
-RUN chown -R tomcat:tomcat ${CATALINA_HOME}
+#RUN chown -R tomcat:tomcat ${CATALINA_HOME}
 
 WORKDIR /opt/tomcat
 
 EXPOSE 8080
 EXPOSE 8009
 
-USER tomcat
+#USER tomcat
 CMD ["tomcat.sh"]
+RUN chown -R tomcat:tomcat ${CATALINA_HOME}
+USER tomcat
