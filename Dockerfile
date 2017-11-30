@@ -56,3 +56,4 @@ EXPOSE 8009
 CMD ["tomcat.sh"]
 RUN chown -R tomcat:tomcat ${CATALINA_HOME}
 USER tomcat
+RUN ${CATALINA_HOME}/bin/catalina.sh
